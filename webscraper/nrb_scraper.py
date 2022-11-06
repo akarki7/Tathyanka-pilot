@@ -39,12 +39,12 @@ def parser(page):
 
     # NOTE: for our implementation right now I will only use the first <li> to get the latest data only
 
-    results = results[0].div.find_all("a")[2]["href"]
-
-    print(results)
-
-    with open("specific_div_body.html", "w") as f:
-        f.write(str(results))
+    file_name = results[0].div.find_all("a")[0].text
+    file_url = results[0].div.find_all("a")[2]["href"]
+    resp = requests.get(file_url)
+    output = open(file_name + ".xls", "wb")
+    output.write(resp.content)
+    output.close()
 
 
 main()
