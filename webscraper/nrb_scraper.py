@@ -26,10 +26,6 @@ URL = "https://www.nrb.org.np/category/monthly-statistics/"
 def main():
     page = requests.get(URL)
 
-    # filename = "website.html"
-    # with open(filename, "w") as f:
-    #     f.write(page.text)
-
     file_to_extract_data_from = parser(page)
 
     extract_and_store(file_to_extract_data_from)
@@ -53,12 +49,13 @@ def parser(page):
 
 
 def extract_and_store(file):
+    # I have only worked with data of C4 sheet for this demo
     workbook = pd.read_excel(file + ".xls", sheet_name="C4")
     indicators_types_list = get_indicators_types(workbook)
     major_financial_indicators = {}
 
     bank_types = ["Class 'A'", "Class 'B'", "Class 'C'", "Overall"]
-    bank_index_in_sheet = ["Unnamed: 3", "Unnamed: 4", "Unnamed: 5"]
+    bank_index_in_sheet = ["Unnamed: 3", "Unnamed: 4", "Unnamed: 5", "Unnamed: 6"]
     range_list = [(4, 14), (16, 18), (20, 21), (23, 34), (36, 40)]
 
     credit_deposit_ratios = get_data_from_column(workbook, "Unnamed: 2", range_list[0])
@@ -68,22 +65,24 @@ def extract_and_store(file):
     )
     financial_access = get_data_from_column(workbook, "Unnamed: 2", range_list[3])
 
+    data_dict = {
+        0: credit_deposit_ratios,
+        1: liquidity_ratios,
+        2: capital_adequacy_ratios,
+        3: financial_access,
+    }
+
     for x, y in zip(bank_types, bank_index_in_sheet):
         major_financial_indicators[x] = get_data_class_wise(
-            indicators_types_list,
-            range_list,
-            y,
-            credit_deposit_ratios,
-            liquidity_ratios,
-            capital_adequacy_ratios,
-            financial_access,
+            indicators_types_list[:-1], range_list, y, data_dict, workbook
         )
 
-    # pd.set_option("display.max_rows", None, "display.max_columns", None)
-    # major_financial_indicators_dataframe = pd.DataFrame.from_dict(
-    #     pad_dict_list(major_financial_indicators, None)
-    # )
-    # print(workbook)
+    pd.set_option("display.max_rows", None, "display.max_columns", None)
+    major_financial_indicators_dataframe = pd.DataFrame.from_dict(
+        major_financial_indicators
+    )
+
+    major_financial_indicators_dataframe.to_csv("final_data.csv", mode="w")
 
 
 def get_indicators_types(workbook) -> list:
@@ -104,13 +103,7 @@ def get_data_from_column(workbook, column_name, row_range) -> list:  # row_range
 
 
 def get_data_class_wise(
-    indicators_types_list,
-    range_list,
-    class_index,
-    credit_deposit_ratios,
-    liquidity_ratios,
-    capital_adequacy_ratios,
-    financial_access,
+    indicators_types_list, range_list, bank_index_in_sheet, data_dict, workbook
 ):
     """Return =
     {
@@ -132,20 +125,16 @@ def get_data_class_wise(
     }
     """
 
-    # get index value in for loop
     """
-    if index=0, then use credit_deposit_ratios,
-    if index =1, then use liquidity_ratios and so on
-
-    or change the sent data like this:
-
-    {0: credit_deposit_ratios, }
-    then do dict.get(str(index_of_loop))
+    then do data_dict.get(str(index_of_loop))
     """
 
     data = {}
-    for x, y in zip(indicators_types_list, range_list):
-        data[x] = {}
+    for index, x in enumerate(indicators_types_list):
+        values = get_data_from_column(workbook, bank_index_in_sheet, range_list[index])
+        data[x] = dict(map(lambda i, j: (i, j), data_dict.get(index), values))
+
+    return data
 
 
 def pad_dict_list(dict_list, padel):
