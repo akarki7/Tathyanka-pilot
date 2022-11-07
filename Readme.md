@@ -11,20 +11,24 @@
 ### Requirements
 --------------------------
 * `python`
+  * https://www.python.org/downloads/ 
 * `pipenv`
+  * to install run `pip install pipenv`
 
 ### How to run
 * run `pipenv shell` to activate/create your virtual env
 * run `pipenv install` to install requirements 
 * run `pipenv install -r requirements.txt` to install streamlit 
 
+#### For streamlit UI
+* From the root directory run `streamlit run app.py`
+
 #### For web scraper
 * `cd webscraper` and run `python -m nrb_scraper` 
   * The downloaded file will be saved here with the name given in the website itself eg (2079-05 (Mid Sept, 2022).xls)
   * This will also produce the output file named `final_data.csv` with the extracted data
 
-#### For streamlit UI
-* From the root directory run `streamlit run app.py`
+
 
 
 

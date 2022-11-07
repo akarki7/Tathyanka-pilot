@@ -6,9 +6,9 @@ import numpy as np
 
 
 def main():
-    utl.local_css("frontend/css/style.css")
+    utl.local_css("static/css/style.css")
     utl.remote_css("https://fonts.googleapis.com/icon?family=Material+Icons")
-    image = Image.open("frontend/img/tathyanka_logo.jpg")
+    image = Image.open("static/img/tathyanka_logo.jpg")
 
     st.image(image)
 
@@ -43,7 +43,7 @@ def searchbox():
                 st.write("")
 
             with col2:
-                st.image("frontend/img/notfound.png")
+                st.image("static/img/notfound.png")
 
             with col3:
                 st.write("")
