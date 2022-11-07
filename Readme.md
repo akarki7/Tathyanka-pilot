@@ -44,6 +44,15 @@
 
 ### Folder and File Descriptions: (only the important folders/files are listed)
 --------------------------
+    ├── static
+        ├── css
+        ├── img
+    ├── webscraper
+        ├── nrb_scraper.py (main webscraper file for NRB)
+    ├── app.py (main file that hosts streamlit UI and also contains logic of NLP)
+    ├── utils.py (contains util functions that are used by app.py)
+    ├── requirements.txt and Pipfile (contains all the dependencies)
+    ├── Extra findings (contains extra information I saved for myself)
     
 ### Notes for the contributors
 ------------------------------
