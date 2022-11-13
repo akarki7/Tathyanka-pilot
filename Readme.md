@@ -29,7 +29,10 @@
   * This will also produce the output file named `final_data.csv` with the extracted data
 
 
+### Link for google collab
+https://colab.research.google.com/drive/1X1gpnKj8D0siPdLrVZLoXLUrVL78EuSn?usp=sharing
 
+In this google collab I have written the script for training the ML model with WikiSQL dataset
 
 
 ### Features implemented

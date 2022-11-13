@@ -7,6 +7,9 @@ name = "pypi"
 beautifulsoup4 = "*"
 requests = "*"
 openpyxl = "*"
+transformers = "*"
+sentencepiece = "*"
+datasets = "*"
 
 [dev-packages]
 
