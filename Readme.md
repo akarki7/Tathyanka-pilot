@@ -29,7 +29,10 @@
   * This will also produce the output file named `final_data.csv` with the extracted data
 
 
+### Link for google collab
+https://colab.research.google.com/drive/1X1gpnKj8D0siPdLrVZLoXLUrVL78EuSn?usp=sharing
 
+In this google collab I have written the script for training the ML model with WikiSQL dataset
 
 
 ### Features implemented
@@ -44,6 +47,15 @@
 
 ### Folder and File Descriptions: (only the important folders/files are listed)
 --------------------------
+    ├── static
+        ├── css
+        ├── img
+    ├── webscraper
+        ├── nrb_scraper.py (main webscraper file for NRB)
+    ├── app.py (main file that hosts streamlit UI and also contains logic of NLP)
+    ├── utils.py (contains util functions that are used by app.py)
+    ├── requirements.txt and Pipfile (contains all the dependencies)
+    ├── Extra findings (contains extra information I saved for myself)
     
 ### Notes for the contributors
 ------------------------------

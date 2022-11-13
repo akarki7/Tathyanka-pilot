@@ -24,8 +24,25 @@ def main():
 
 def searchbox():
     # search bar
-    query = st.text_input("", "")
+    question = st.text_input("", "")
+    # temp_display(question)
+    sql_display(question)
 
+
+def sql_display(question):
+    if question:
+        import models as mdl
+
+        result = mdl.get_sql(question)
+        result = result[6:]
+        result = result[:-4]
+        if any(x in question for x in ["deposit", "Deposit"]):
+            result = result.replace("table", "deposit")
+
+        st.write(result)
+
+
+def temp_display(query):
     if query:
         if query == "bank":
             chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])

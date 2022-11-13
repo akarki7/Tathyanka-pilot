@@ -1,0 +1,84 @@
+Questions:
+    1. Last 10 month deposit?/ Deposit of last 10 month?/ 
+    2. Last month top 10 deposit Bank?/ Deposit Bank top 10 last month?
+    3. Last month bottom 10 deposit bank?/ Deposit bank bottom 10 last month?
+    4. Deposit by type? / Deposit according to type?/ Deposit based on type?/
+    5. Top 10 Fixed Deposit Bank? / Fixed deposit bank top 10?
+    6. Top 10 fixed deposit bank by percentage? / Fixed deposit bank top 10 by percentage?
+
+Answers:
+    1. SELECT FROM WHERE
+    2. SELECT FROM WHERE
+    3. SELECT FROM WHERE
+    4. SELECT FROM WHERE
+    5. SELECT FROM WHERE
+    6. SELECT FROM WHERE 
+
+1. Map Question to SQL query and chart type in same model:
+Example:
+Question-> "Last 10 month deposit"
+Answer -> "Query = SELECT * FROM deposit WHERE valid_from = today-10month;Chart_type= bar_chart"
+
+
+Chart_type = "bar_chart, line_chart, ...."
+
+2. Map Question to SQL then again Map question to chart_type in separate model --> CURRENT CHOICE 
+Example:
+Question-> "Last 10 month deposit"
+Answer1-> "SELECT * FROM deposit WHERE valid_from = today-10month"
+Answer2-> "bar_chart"
+
+Questions and answers for chart types
+
+
+
+
+Model Train in 80% data, Model Validate in 20% data
+
+
+How to train/finetune:
+
+Tokenizers:
+    - A tokenizer is in charge of preparing the inputs for a model. 
+    - to translate text into data that can be processed by the model. 
+    - Models can only process numbers, so tokenizers need to convert our text inputs to numerical data
+
+
+
+- Recall is a measure of how many of the positive cases the classifier correctly predicted, over all the positive cases in the data
+- Precision is a measure of how many of the positive predictions made are correct (true positives). 
+- F1-Score is a measure combining both precision and recall. It is generally described as the harmonic mean of the two. 
+    Harmonic mean is just another way to calculate an “average” of values, generally described as more suitable for ratios 
+    (such as precision and recall) than the traditional arithmetic mean
+
+
+Precision means the percentage of your results which are relevant. On the other hand, 
+recall refers to the percentage of total relevant results correctly classified by your algorithm
+
+Precision and recall are performance metrics used for pattern recognition and classification in machine learning.
+
+
+Precision = True Positive/True Positive + False Positive  
+The precision of a machine learning model will be low when the value of;
+    TP+FP (denominator) > TP (Numerator)  
+The precision of the machine learning model will be high when Value of;
+    TP (Numerator) > TP+FP (denominator)  
+
+
+
+Recall = True Positive/True Positive + False Negative  
+Recall = TP/TP+FN  
+
+
+An epoch is when all the training data is used at once and is defined as the total number of iterations of all the training data in one cycle for training the machine learning model.
+
+
+The training loss is a metric used to assess how a deep learning model fits the training data. That is to say, it assesses the error of the model on the training set. Note that, the training set is a portion of a dataset used to initially train the model. Computationally, the training loss is calculated by taking the sum of errors for each example in the training set.
+
+On the contrary, validation loss is a metric used to assess the performance of a deep learning model on the validation set. The validation set is a portion of the dataset set aside to validate the performance of the model. The validation loss is similar to the training loss and is calculated from a sum of the errors for each example in the validation set.
+
+Format of dataset:
+{'input': 'TextToSQL: Tell me what the notes are for South Australia ',
+ 'target': 'SELECT Notes FROM table WHERE Current slogan = SOUTH AUSTRALIA'}
+ 
+
