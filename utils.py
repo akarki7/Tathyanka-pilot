@@ -39,23 +39,25 @@ def icon(icon_name):
     )
 
 
-def temp_display(query):
-    if query:
-        if query == "deposit":
-            data = get_deposit_data()
+def temp_display(text):
+    if text:
+        if text == "deposit":
+            query = "Select MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
+            data = get_data_from_db(query)
             st.line_chart(data, x="MonthName", y="DEPOSIT")
-        elif query == "lending":
-            data = get_lending_data()
+        elif text == "lending":
+            query = "Select MonthName,LENDING  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
+            data = get_data_from_db(query)
             c = (
                 alt.Chart(data)
                 .mark_line(color="red")
                 .encode(x="MonthName", y="LENDING")
             )
             st.altair_chart(c, use_container_width=True)
-        elif query == "nepse":
+        elif text == "nepse":
             chart_data = pd.DataFrame(np.random.randn(50, 3), columns=["a", "b", "c"])
             st.bar_chart(chart_data)
-        elif query == "prabhu":
+        elif text == "prabhu":
             chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
             st.area_chart(chart_data)
         else:
@@ -93,24 +95,10 @@ def test_db():
     cursor.close()
 
 
-def get_deposit_data():
+def get_data_from_db(query):
     conn = connect_to_database()
     cursor = conn.cursor(as_dict=True)
-    cursor.execute(
-        "Select MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
-    )
-    data = cursor.fetchall()
-    data_df = pd.DataFrame(data)
-    cursor.close()
-    return data_df
-
-
-def get_lending_data():
-    conn = connect_to_database()
-    cursor = conn.cursor(as_dict=True)
-    cursor.execute(
-        "Select MonthName,LENDING  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
-    )
+    cursor.execute(query)
     data = cursor.fetchall()
     data_df = pd.DataFrame(data)
     cursor.close()

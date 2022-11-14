@@ -1,10 +1,27 @@
 Questions:
-    1. Last 10 month deposit?/ Deposit of last 10 month?/ 
+    1. Last 10 month deposit?/ Deposit of last 10 month?/ -> SQL query done
     2. Last month top 10 deposit Bank?/ Deposit Bank top 10 last month?
     3. Last month bottom 10 deposit bank?/ Deposit bank bottom 10 last month?
     4. Deposit by type? / Deposit according to type?/ Deposit based on type?/
     5. Top 10 Fixed Deposit Bank? / Fixed deposit bank top 10?
     6. Top 10 fixed deposit bank by percentage? / Fixed deposit bank top 10 by percentage?
+
+last 10 month = extract 10 data from bottom -> only for deposit
+last month = extract 1 data from bottom -> only for deposit
+But what about bank deposits of commercial bank: eg:
+
+Last month | Prabhu | XXX 
+last month | Everest | XXX
+last month | sanima | XXX
+last month | nic asia | XXX
+last month | nabil | XXX
+last month | bok | XXX
+
+
+Store MonthName in your system so we cant get directly it without having to access the db always
+MonthNames = [......,"Asar2079"]
+Last month top 10 deposit Bank -> Filter using MonthName = MonthNames[:-1], OrderBy Deposit amount -> top 10
+
 
 Answers:
     1. SELECT FROM WHERE
