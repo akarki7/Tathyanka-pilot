@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from dotenv import dotenv_values
 import altair as alt
+import re
 
 config = dotenv_values(".env")
 
@@ -40,6 +41,8 @@ def icon(icon_name):
 
 
 def temp_display(text):
+    pattern_deposit = re.match("deposit last \d{1,2} month$", text)
+
     if text:
         if text == "deposit":
             query = "Select MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
@@ -54,9 +57,13 @@ def temp_display(text):
                 .encode(x="MonthName", y="LENDING")
             )
             st.altair_chart(c, use_container_width=True)
-        elif text == "nepse":
-            chart_data = pd.DataFrame(np.random.randn(50, 3), columns=["a", "b", "c"])
-            st.bar_chart(chart_data)
+        elif pattern_deposit:
+            month_count = re.findall(r"\d{1,2}", text)[0]
+            query = f"Select TOP({month_count}) MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName DESC"
+            print(query)
+            data = get_data_from_db(query)
+            print(data)
+            st.line_chart(data, x="MonthName", y="DEPOSIT")
         elif text == "prabhu":
             chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
             st.area_chart(chart_data)
