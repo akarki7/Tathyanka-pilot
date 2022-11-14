@@ -3,7 +3,6 @@ import utils as utl
 from PIL import Image
 import pandas as pd
 import numpy as np
-from db import connect_to_database
 
 
 def main():
@@ -32,7 +31,7 @@ def searchbox():
 
 
 def test_db():
-    conn = connect_to_database()
+    conn = utl.connect_to_database()
     cursor = conn.cursor(as_dict=True)
     cursor.execute("Select * FROM V_DepositLendingTrendByYearMonth")
     data = cursor.fetchall()
