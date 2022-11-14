@@ -3,6 +3,7 @@ import utils as utl
 from PIL import Image
 import pandas as pd
 import numpy as np
+from db import connect_to_database
 
 
 def main():
@@ -27,6 +28,19 @@ def searchbox():
     question = st.text_input("", "")
     # temp_display(question)
     sql_display(question)
+    test_db()
+
+
+def test_db():
+    conn = connect_to_database()
+    cursor = conn.cursor(as_dict=True)
+    cursor.execute("Select * FROM V_DepositLendingTrendByYearMonth")
+    data = cursor.fetchall()
+    data_df = pd.DataFrame(data)
+
+    print(data_df)
+
+    cursor.close()
 
 
 def sql_display(question):

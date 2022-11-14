@@ -14,6 +14,7 @@
   * https://www.python.org/downloads/ 
 * `pipenv`
   * to install run `pip install pipenv`
+* Add your own .env file according to the .env_sample provided
 
 ### How to run
 * run `pipenv shell` to activate/create your virtual env

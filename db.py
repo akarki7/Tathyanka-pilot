@@ -1,17 +1,20 @@
 import pymssql
 import pandas as pd
+from dotenv import dotenv_values
 
-conn = pymssql.connect(
-    host=r"10.10.11.4",
-    user=r"tathyanka_user",
-    password=r"Super@dm1n",
-    database="Tathyanka",
-)
-cursor = conn.cursor(as_dict=True)
-cursor.execute("Select * FROM V_DepositLendingTrendByYearMonth")
-data = cursor.fetchall()
-data_df = pd.DataFrame(data)
+config = dotenv_values(".env")
 
-print(data_df)
+host_db = config["HOST_db"]
+user_db = config["USER_db"]
+passw_db = config["PASSWORD_db"]
+name_db = config["DATABASE_db"]
 
-cursor.close()
+
+def connect_to_database():
+    conn = pymssql.connect(
+        host=host_db,
+        user=user_db,
+        password=passw_db,
+        database=name_db,
+    )
+    return conn
