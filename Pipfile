@@ -12,6 +12,7 @@ sentencepiece = "*"
 datasets = "*"
 pymssql = "*"
 python-dotenv = "*"
+altair = "*"
 
 [dev-packages]
 
