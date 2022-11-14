@@ -11,6 +11,7 @@ transformers = "*"
 sentencepiece = "*"
 datasets = "*"
 pymssql = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
