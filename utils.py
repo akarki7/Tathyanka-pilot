@@ -42,7 +42,9 @@ def icon(icon_name):
 
 def temp_display(text):
     pattern_deposit = re.match("deposit last \d{1,2} month$", text)
-
+    MONTHS_LIST_DL = get_data_from_db(
+        "Select MonthName FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
+    )
     if text:
         if text == "deposit":
             query = "Select MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
@@ -60,13 +62,22 @@ def temp_display(text):
         elif pattern_deposit:
             month_count = re.findall(r"\d{1,2}", text)[0]
             query = f"Select TOP({month_count}) MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName DESC"
-            print(query)
+            data = get_data_from_db(query)
+            st.line_chart(data, x="MonthName", y="DEPOSIT")
+        elif text == "deposit bank top 10 last month":
+            month = MONTHS_LIST_DL["MonthName"].iloc[-1]
+            query = f"Select TOP(10) BankCode,DEPOSIT FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY DEPOSIT DESC"
             data = get_data_from_db(query)
             print(data)
-            st.line_chart(data, x="MonthName", y="DEPOSIT")
-        elif text == "prabhu":
-            chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
-            st.area_chart(chart_data)
+            c = (
+                alt.Chart(data)
+                .mark_bar(color="green")
+                .encode(
+                    x=alt.X("BankCode", sort=None), y="DEPOSIT", tooltip=["DEPOSIT"]
+                )
+            )
+            st.altair_chart(c, use_container_width=True)
+
         else:
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:

@@ -1,5 +1,5 @@
 Questions:
-    1. Last 10 month deposit?/ Deposit of last 10 month?/ -> SQL query done
+    1. Last 10 month deposit?/ Deposit of last 10 month?/ -> SQL query done 
     2. Last month top 10 deposit Bank?/ Deposit Bank top 10 last month?
     3. Last month bottom 10 deposit bank?/ Deposit bank bottom 10 last month?
     4. Deposit by type? / Deposit according to type?/ Deposit based on type?/
@@ -97,5 +97,17 @@ On the contrary, validation loss is a metric used to assess the performance of a
 Format of dataset:
 {'input': 'TextToSQL: Tell me what the notes are for South Australia ',
  'target': 'SELECT Notes FROM table WHERE Current slogan = SOUTH AUSTRALIA'}
+
+ Need a ML model that reads database schema as wel -> to make it more generic and readily usable
+ with data of different companies
+
+
+ ML MOdel another example:
+
+ Last 10 month deposit?/ Deposit of last 10 month/ previous 10 months deposit -> deposity by month
+
+ deposity by month():
+    extract nuber from input text using regex
+    run prebuilt query with the above month number and dispaly the results
  
 
