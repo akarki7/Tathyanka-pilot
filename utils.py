@@ -41,16 +41,32 @@ def icon(icon_name):
 
 
 def temp_display(text):
-    pattern_deposit = re.match("deposit last \d{1,2} month$", text)
     MONTHS_LIST_DL = get_data_from_db(
         "Select MonthName FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
     )
+    pattern_deposit = re.match("deposit last \d{1,2} month$", text)
+    pattern_lending = re.match("lending last \d{1,2} month$", text)
+    pattern_bank__deposit_top = re.match("deposit bank top \d{1,2} last month$", text)
+    pattern_bank_deposit_bottom = re.match(
+        "deposit bank bottom \d{1,2} last month$", text
+    )
+    pattern_bank__lending_top = re.match("lending bank top \d{1,2} last month$", text)
+    pattern_bank_lending_bottom = re.match(
+        "lending bank bottom \d{1,2} last month$", text
+    )
+
+    deposit_trend_by_bank_class_year = re.match(
+        "deposit trend by bank class year \d{1,4}$", text
+    )
+    lending_trend_by_bank_class_year = re.match(
+        "lending trend by bank class year \d{1,4}$", text
+    )
     if text:
-        if text == "deposit":
+        if text == "deposit all":
             query = "Select MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
             data = get_data_from_db(query)
             st.line_chart(data, x="MonthName", y="DEPOSIT")
-        elif text == "lending":
+        elif text == "lending all":
             query = "Select MonthName,LENDING  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
             data = get_data_from_db(query)
             c = (
@@ -64,11 +80,21 @@ def temp_display(text):
             query = f"Select TOP({month_count}) MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName DESC"
             data = get_data_from_db(query)
             st.line_chart(data, x="MonthName", y="DEPOSIT")
-        elif text == "deposit bank top 10 last month":
-            month = MONTHS_LIST_DL["MonthName"].iloc[-1]
-            query = f"Select TOP(10) BankCode,DEPOSIT FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY DEPOSIT DESC"
+        elif pattern_lending:
+            month_count = re.findall(r"\d{1,2}", text)[0]
+            query = f"Select TOP({month_count}) MonthName,LENDING  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName DESC"
             data = get_data_from_db(query)
-            print(data)
+            c = (
+                alt.Chart(data)
+                .mark_line(color="red")
+                .encode(x="MonthName", y="LENDING")
+            )
+            st.altair_chart(c, use_container_width=True)
+        elif pattern_bank__deposit_top:
+            month = MONTHS_LIST_DL["MonthName"].iloc[-1]
+            month_count = re.findall(r"\d{1,2}", text)[0]
+            query = f"Select TOP({month_count}) BankCode,DEPOSIT FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY DEPOSIT DESC"
+            data = get_data_from_db(query)
             c = (
                 alt.Chart(data)
                 .mark_bar(color="green")
@@ -77,7 +103,78 @@ def temp_display(text):
                 )
             )
             st.altair_chart(c, use_container_width=True)
+        elif pattern_bank_deposit_bottom:
+            month = MONTHS_LIST_DL["MonthName"].iloc[-1]
+            month_count = re.findall(r"\d{1,2}", text)[0]
+            query = f"Select TOP({month_count}) BankCode,DEPOSIT FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY DEPOSIT ASC"
+            data = get_data_from_db(query)
+            c = (
+                alt.Chart(data)
+                .mark_bar(color="red")
+                .encode(
+                    x=alt.X("BankCode", sort=None), y="DEPOSIT", tooltip=["DEPOSIT"]
+                )
+            )
+            st.altair_chart(c, use_container_width=True)
 
+        elif pattern_bank__lending_top:
+            month = MONTHS_LIST_DL["MonthName"].iloc[-1]
+            month_count = re.findall(r"\d{1,2}", text)[0]
+            query = f"Select TOP({month_count}) BankCode,LENDING FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY LENDING DESC"
+            data = get_data_from_db(query)
+            c = (
+                alt.Chart(data)
+                .mark_bar(color="green")
+                .encode(
+                    x=alt.X("BankCode", sort=None), y="LENDING", tooltip=["LENDING"]
+                )
+            )
+            st.altair_chart(c, use_container_width=True)
+        elif pattern_bank_lending_bottom:
+            month = MONTHS_LIST_DL["MonthName"].iloc[-1]
+            month_count = re.findall(r"\d{1,2}", text)[0]
+            query = f"Select TOP({month_count}) BankCode,LENDING FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY LENDING ASC"
+            data = get_data_from_db(query)
+            c = (
+                alt.Chart(data)
+                .mark_bar(color="red")
+                .encode(
+                    x=alt.X("BankCode", sort=None), y="LENDING", tooltip=["LENDING"]
+                )
+            )
+            st.altair_chart(c, use_container_width=True)
+        elif deposit_trend_by_bank_class_year:
+            year = re.findall(r"\d{1,4}", text)[0]
+            query = f"Select ClassName,MonthName,DEPOSITS FROM V_DepostiTrendByBankClassYearMonth WHERE Fyear = '{year}' ORDER BY MonthName"
+            data = get_data_from_db(query)
+            c = (
+                alt.Chart(data)
+                .mark_bar()
+                .encode(
+                    x=alt.X("ClassName", sort=None),
+                    column=alt.Column("MonthName"),
+                    y="DEPOSITS",
+                    tooltip=["DEPOSITS"],
+                    color="ClassName",
+                )
+            )
+            st.altair_chart(c)
+        elif lending_trend_by_bank_class_year:
+            year = re.findall(r"\d{1,4}", text)[0]
+            query = f"Select ClassName,MonthName,Lending FROM V_LendingTrendByBankClassYearMonth WHERE Fyear = '{year}' ORDER BY MonthName"
+            data = get_data_from_db(query)
+            c = (
+                alt.Chart(data)
+                .mark_bar()
+                .encode(
+                    x=alt.X("ClassName", sort=None),
+                    column=alt.Column("MonthName"),
+                    y="Lending",
+                    tooltip=["Lending"],
+                    color="ClassName",
+                )
+            )
+            st.altair_chart(c)
         else:
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:

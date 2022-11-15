@@ -1,13 +1,19 @@
 Questions:
-    1. Last 10 month deposit?/ Deposit of last 10 month?/ -> SQL query done 
-    2. Last month top 10 deposit Bank?/ Deposit Bank top 10 last month?
-    3. Last month bottom 10 deposit bank?/ Deposit bank bottom 10 last month?
+    1. Last {} month deposit?/ Deposit of last {} month?/ -> SQL query done 
+    2. Last month top {} deposit Bank?/ Deposit Bank top {} last month? -> SQL query done
+    3. Last month bottom {} deposit bank?/ Deposit bank bottom {} last month? -> SQL query done
+    Do 1,2,3 for lending as well ->SQL query done
+    4. Deposit trend by bank class -> SQL query done
+    5. lending trend by bank class -> ?
+
     4. Deposit by type? / Deposit according to type?/ Deposit based on type?/
     5. Top 10 Fixed Deposit Bank? / Fixed deposit bank top 10?
     6. Top 10 fixed deposit bank by percentage? / Fixed deposit bank top 10 by percentage?
 
-last 10 month = extract 10 data from bottom -> only for deposit
-last month = extract 1 data from bottom -> only for deposit
+    Text to SQL will not be scalabl and generic as we need to finetune it for all the companies data according to their database
+    Need a ML model that also looks at the database schema + Text and give output -> more scalable and generic
+
+last 10 month = extract 10 data from bottom -> olendingy for deposit
 But what about bank deposits of commercial bank: eg:
 
 Last month | Prabhu | XXX 
@@ -104,10 +110,22 @@ Format of dataset:
 
  ML MOdel another example:
 
- Last 10 month deposit?/ Deposit of last 10 month/ previous 10 months deposit -> deposity by month
+ Last 10 month deposit?/ Deposit of last 10 month/ previous 10 months deposit -> deposit by month
 
  deposity by month():
     extract nuber from input text using regex
     run prebuilt query with the above month number and dispaly the results
- 
+
+
+
+Fixed questions for ML model:
+
+1)deposit last _ month
+2)lending last _ month
+3)deposit bank top _ last month
+4)deposit bank bottom _ last month
+5)lending bank top _ last month
+6)lending bank bottom _ last month
+7)deposit trend by bank class year _
+8)lending trend by bank class year _ 
 
