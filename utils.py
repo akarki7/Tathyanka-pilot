@@ -56,10 +56,10 @@ def temp_display(text):
     )
 
     deposit_trend_by_bank_class_year = re.match(
-        "deposit trend by bank class \d{1,4}$", text
+        "deposit trend by bank class year \d{1,4}$", text
     )
     lending_trend_by_bank_class_year = re.match(
-        "lending trend by bank class \d{1,4}$", text
+        "lending trend by bank class year \d{1,4}$", text
     )
     if text:
         if text == "deposit all":

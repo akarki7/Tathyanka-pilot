@@ -115,5 +115,17 @@ Format of dataset:
  deposity by month():
     extract nuber from input text using regex
     run prebuilt query with the above month number and dispaly the results
- 
+
+
+
+Fixed questions for ML model:
+
+1)deposit last _ month
+2)lending last _ month
+3)deposit bank top _ last month
+4)deposit bank bottom _ last month
+5)lending bank top _ last month
+6)lending bank bottom _ last month
+7)deposit trend by bank class year _
+8)lending trend by bank class year _ 
 
