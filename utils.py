@@ -45,6 +45,9 @@ def temp_display(text):
     MONTHS_LIST_DL = get_data_from_db(
         "Select MonthName FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
     )
+
+    pattern_bank_top = re.match("deposit bank top \d{1,2} last month$", text)
+    pattern_bank_bottom = re.match("deposit bank bottom \d{1,2} last month$", text)
     if text:
         if text == "deposit":
             query = "Select MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
@@ -64,11 +67,11 @@ def temp_display(text):
             query = f"Select TOP({month_count}) MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName DESC"
             data = get_data_from_db(query)
             st.line_chart(data, x="MonthName", y="DEPOSIT")
-        elif text == "deposit bank top 10 last month":
+        elif pattern_bank_top:
             month = MONTHS_LIST_DL["MonthName"].iloc[-1]
-            query = f"Select TOP(10) BankCode,DEPOSIT FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY DEPOSIT DESC"
+            month_count = re.findall(r"\d{1,2}", text)[0]
+            query = f"Select TOP({month_count}) BankCode,DEPOSIT FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY DEPOSIT DESC"
             data = get_data_from_db(query)
-            print(data)
             c = (
                 alt.Chart(data)
                 .mark_bar(color="green")
@@ -77,7 +80,19 @@ def temp_display(text):
                 )
             )
             st.altair_chart(c, use_container_width=True)
-
+        elif pattern_bank_bottom:
+            month = MONTHS_LIST_DL["MonthName"].iloc[-1]
+            month_count = re.findall(r"\d{1,2}", text)[0]
+            query = f"Select TOP({month_count}) BankCode,DEPOSIT FROM V_DepositLendingTrendByYearMonthBank WHERE MonthName='{month}' ORDER BY DEPOSIT ASC"
+            data = get_data_from_db(query)
+            c = (
+                alt.Chart(data)
+                .mark_bar(color="red")
+                .encode(
+                    x=alt.X("BankCode", sort=None), y="DEPOSIT", tooltip=["DEPOSIT"]
+                )
+            )
+            st.altair_chart(c, use_container_width=True)
         else:
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
