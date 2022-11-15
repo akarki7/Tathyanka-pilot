@@ -1,7 +1,8 @@
 Questions:
-    1. Last 10 month deposit?/ Deposit of last 10 month?/ -> SQL query done 
-    2. Last month top 10 deposit Bank?/ Deposit Bank top 10 last month?
-    3. Last month bottom 10 deposit bank?/ Deposit bank bottom 10 last month?
+    1. Last {} month deposit?/ Deposit of last {} month?/ -> SQL query done 
+    2. Last month top {} deposit Bank?/ Deposit Bank top {} last month? -> SQL query done
+    3. Last month bottom {} deposit bank?/ Deposit bank bottom {} last month? -> SQL query done
+    Do 1,2,3 for lending as well
     4. Deposit by type? / Deposit according to type?/ Deposit based on type?/
     5. Top 10 Fixed Deposit Bank? / Fixed deposit bank top 10?
     6. Top 10 fixed deposit bank by percentage? / Fixed deposit bank top 10 by percentage?
