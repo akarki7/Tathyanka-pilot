@@ -54,6 +54,10 @@ def temp_display(text):
     pattern_bank_lending_bottom = re.match(
         "lending bank bottom \d{1,2} last month$", text
     )
+
+    deposit_trend_by_bank_class_year = re.match(
+        "deposit trend by bank class \d{1,4}$", text
+    )
     if text:
         if text == "deposit all":
             query = "Select MonthName,DEPOSIT  FROM V_DepositLendingTrendByYearMonth ORDER BY MonthName"
@@ -136,7 +140,22 @@ def temp_display(text):
                 )
             )
             st.altair_chart(c, use_container_width=True)
-
+        elif deposit_trend_by_bank_class_year:
+            year = re.findall(r"\d{1,4}", text)[0]
+            query = f"Select ClassName,MonthName,DEPOSITS FROM V_DepostiTrendByBankClassYearMonth WHERE Fyear = '{year}' ORDER BY MonthName"
+            data = get_data_from_db(query)
+            c = (
+                alt.Chart(data)
+                .mark_bar()
+                .encode(
+                    x=alt.X("ClassName", sort=None),
+                    column=alt.Column("MonthName"),
+                    y="DEPOSITS",
+                    tooltip=["DEPOSITS"],
+                    color="ClassName",
+                )
+            )
+            st.altair_chart(c)
         else:
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
