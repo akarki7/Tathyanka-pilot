@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import argparse
 import openpyxl as xlsx
+from utils_scraper import *
+import numpy as np
 
 # can comment this DATE out if we want to pass it from the argments directly
 # DATE = "207905 BHADRA"
@@ -29,7 +31,7 @@ def main():
     page = requests.get(URL)
 
     file_to_extract_data_from = parser(page)
-    extract_data_sheet_8(file_to_extract_data_from, month_name, year)
+    create_excel(file_to_extract_data_from, month_name, year)
 
 
 def parser(page):
@@ -50,22 +52,14 @@ def parser(page):
     return file_name
 
 
-def create_excel():
-    pass
+def create_excel(file, month_name, year):
+    template_file, sheet = create_template_A_and_L()
+    add_year_and_monthname(template_file, sheet, year, month_name)
+    values = extract_data_sheet_8(file)
+    add_values(template_file, sheet, values, month_name + "_cleaned.xlsx", "A&L")
 
 
-def extract_data_sheet_8(file, month_name, year):
-    cols = list(range(3, 63))
-    rows = [0, 1, 2]
-    workbook = pd.read_excel(file, sheet_name="C8", usecols=cols, skiprows=rows)
-    data = workbook.iloc[0]
-
-    print(len(data))
-    for x in data:
-        print(x)
-
-    print(month_name, year)
-
+def extract_data_sheet_8(file):
     """
     workbook.iloc[0] -> gives value of first row
     Unnamed:3 to Unnamed:62 col with values
@@ -75,15 +69,55 @@ def extract_data_sheet_8(file, month_name, year):
     Row 4 -> a. Paid-Up Capital
     Make hardcode table with fixed value
     Extract data from C8 and store it alongisde the above hardcode value
+
+    0  to 66
     """
-    # file_output = args.output_file
-    # output = open(file_output, "wb")
-    # output.write(resp.content)
-    # output.close()
+    cols = list(range(3, 63))
+    rows = [
+        0,
+        1,
+        2,
+        3,
+        12,
+        18,
+        19,
+        22,
+        25,
+        28,
+        31,
+        35,
+        42,
+        43,
+        44,
+        45,
+        48,
+        49,
+        52,
+        57,
+        60,
+        66,
+        70,
+        71,
+        75,
+        79,
+        83,
+        84,
+        96,
+    ]
+    workbook = pd.read_excel(file, sheet_name="C8", usecols=cols, skiprows=rows)
 
+    output_list = []
+    for x in range(0, 67):
+        data = workbook.iloc[x]
+        sum = 0
+        for d in data:
+            if isinstance(d, str):
+                d = 0.0
+            output_list.append(d)
+            sum = sum + d
+        output_list.append(round(sum, 6))
 
-def create_basic_structure_of_excel_sheet(headers, data):
-    pass
+    return output_list
 
 
 main()
