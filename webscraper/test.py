@@ -276,37 +276,39 @@ col_Attribute = [
 ]
 col_Value = []
 
-df = pd.DataFrame(
-    {
-        "FYear": col_FYear,
-        "MonthName": col_MonthName,
-        "Category": col_Category,
-        "SubCategory": col_SubCategory,
-        "AccountHead": col_AccountHead,
-        "SubHead1": col_SubHead1,
-        "SubHead2": col_SubHead2,
-        "Attribute": col_Attribute,
-        "Value": col_Value,
-    }
-)
-df = df.reset_index(drop=True)
+print(len(col_Attribute))
 
-# Create a Pandas Excel writer using XlsxWriter as the engine.
-writer = pd.ExcelWriter("pandas_header_format.xlsx", engine="xlsxwriter")
+# df = pd.DataFrame(
+#     {
+#         "FYear": col_FYear,
+#         "MonthName": col_MonthName,
+#         "Category": col_Category,
+#         "SubCategory": col_SubCategory,
+#         "AccountHead": col_AccountHead,
+#         "SubHead1": col_SubHead1,
+#         "SubHead2": col_SubHead2,
+#         "Attribute": col_Attribute,
+#         "Value": col_Value,
+#     }
+# )
+# df = df.reset_index(drop=True)
 
-# Convert the dataframe to an XlsxWriter Excel object. Note that we turn off
-# the default header and skip one row to allow us to insert a user defined
-# header.
-df.to_excel(writer, index=False, sheet_name="Sheet1", startrow=1, header=False)
+# # Create a Pandas Excel writer using XlsxWriter as the engine.
+# writer = pd.ExcelWriter("pandas_header_format.xlsx", engine="xlsxwriter")
 
-# Get the xlsxwriter workbook and worksheet objects.
-workbook = writer.book
-worksheet = writer.sheets["Sheet1"]
+# # Convert the dataframe to an XlsxWriter Excel object. Note that we turn off
+# # the default header and skip one row to allow us to insert a user defined
+# # header.
+# df.to_excel(writer, index=False, sheet_name="Sheet1", startrow=1, header=False)
+
+# # Get the xlsxwriter workbook and worksheet objects.
+# workbook = writer.book
+# worksheet = writer.sheets["Sheet1"]
 
 
-# Write the column headers with the defined format.
-for col_num, value in enumerate(df.columns.values):
-    worksheet.write(0, col_num, value)
+# # Write the column headers with the defined format.
+# for col_num, value in enumerate(df.columns.values):
+#     worksheet.write(0, col_num, value)
 
-# Close the Pandas Excel writer and output the Excel file.
-writer.close()
+# # Close the Pandas Excel writer and output the Excel file.
+# writer.close()
