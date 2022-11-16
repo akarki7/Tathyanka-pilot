@@ -7,7 +7,7 @@ def create_template_A_and_L():
 
     cols = [1, 2, 3, 4, 5, 6, 7, 8]
     rows = []
-    for x in range(4087, 4149):
+    for x in range(4088, 4149):
         rows.append(x)
 
     workbook = pd.read_excel(
@@ -47,5 +47,5 @@ def add_values(file, sheet, values, new_file, new_sheet):
     workbook["Value"] = values
 
     writer = pd.ExcelWriter(new_file, engine="xlsxwriter")
-    df.to_excel(writer, index=False, sheet_name=new_sheet)
+    workbook.to_excel(writer, index=False, sheet_name=new_sheet)
     writer.close()
