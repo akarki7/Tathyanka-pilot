@@ -13,6 +13,7 @@ datasets = "*"
 pymssql = "*"
 python-dotenv = "*"
 altair = "*"
+xlsxwriter = "*"
 
 [dev-packages]
 

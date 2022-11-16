@@ -4,6 +4,10 @@ import pandas as pd
 import argparse
 import openpyxl as xlsx
 
+# can comment this DATE out if we want to pass it from the argments directly
+# DATE = "207905 BHADRA"
+DATE = None
+
 args_parser = argparse.ArgumentParser()
 
 # -o OUTPUT_FILE_NAME
@@ -15,10 +19,17 @@ URL = "https://www.nrb.org.np/category/monthly-statistics/"
 
 
 def main():
+    if not DATE:
+        month_name = args.date
+    else:
+        month_name = DATE
+
+    year = month_name[0:4]
+
     page = requests.get(URL)
 
     file_to_extract_data_from = parser(page)
-    extract_data_sheet_8(file_to_extract_data_from)
+    extract_data_sheet_8(file_to_extract_data_from, month_name, year)
 
 
 def parser(page):
@@ -39,7 +50,11 @@ def parser(page):
     return file_name
 
 
-def extract_data_sheet_8(file):
+def create_excel():
+    pass
+
+
+def extract_data_sheet_8(file, month_name, year):
     cols = list(range(3, 63))
     rows = [0, 1, 2]
     workbook = pd.read_excel(file, sheet_name="C8", usecols=cols, skiprows=rows)
@@ -49,11 +64,9 @@ def extract_data_sheet_8(file):
     for x in data:
         print(x)
 
-    print(args.date)
+    print(month_name, year)
 
     """
-    args.data -> 207905 BHADRA
-    Extract first 4 characters to get year = 2079
     workbook.iloc[0] -> gives value of first row
     Unnamed:3 to Unnamed:62 col with values
 
@@ -67,6 +80,10 @@ def extract_data_sheet_8(file):
     # output = open(file_output, "wb")
     # output.write(resp.content)
     # output.close()
+
+
+def create_basic_structure_of_excel_sheet(headers, data):
+    pass
 
 
 main()
