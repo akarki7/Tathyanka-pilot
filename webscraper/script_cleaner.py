@@ -57,6 +57,7 @@ def create_excel(file, month_name, year):
     add_year_and_monthname(template_file, sheet, year, month_name)
     values = extract_data_sheet_8(file)
     add_values(template_file, sheet, values, month_name + "_cleaned.xlsx", "A&L")
+    # bulk_insert_sql("207905 BHADRA_cleaned.xlsx", "A&L", "Assets_Liabilities_Tathyanka")
 
 
 def extract_data_sheet_8(file):

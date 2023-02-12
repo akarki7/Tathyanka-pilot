@@ -29,6 +29,8 @@
   * The downloaded file will be saved here with the name given in the website itself eg (2079-05 (Mid Sept, 2022).xls)
   * This will also produce the output file named `final_data.csv` with the extracted data
 
+*  `python script_cleaner.py -d "207905 BHADRA"` to get the cleaned data of Sheet 8 (Assets and Liabilities)
+
 
 ### Link for google collab
 https://colab.research.google.com/drive/1X1gpnKj8D0siPdLrVZLoXLUrVL78EuSn?usp=sharing
